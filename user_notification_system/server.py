@@ -29,6 +29,9 @@ class NotificationService(user_notifications_pb2_grpc.NotificationServiceService
             )
         return user_notifications_pb2.ClientStatusResponse(statuses=self.client_statuses)
 
+    async def GetAllClientStatuses(self, request, context):
+        return user_notifications_pb2.ClientStatusResponse(statuses=self.client_statuses)
+
 
 async def serve():
     server = grpc.aio.server()

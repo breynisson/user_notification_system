@@ -38,4 +38,9 @@ log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 [tool.poetry.scripts]
 generate-grpc = "user_notification_system.generate_grpc:generate_protos"
 start-server = "user_notification_system.server:main"
+start-client = "user_notification_system.client:main"
+send-message = "user_notification_system.client:send_message"
+fetch-client-status = "user_notification_system.client:get_client_status"
+fetch-all-statuses = "user_notification_system.client:get_all_client_statuses"
+
 

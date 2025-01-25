@@ -1,10 +1,12 @@
 syntax = 'proto3';
 
 package user_notifications;
+import "google/protobuf/empty.proto";
 
 service NotificationService {
   rpc SendMessage (MessageRequest) returns (MessageResponse);
   rpc GetClientStatus (ClientStatusRequest) returns (ClientStatusResponse);
+  rpc GetAllClientStatuses (google.protobuf.Empty) returns (ClientStatusResponse);
 }
 
 message MessageRequest {

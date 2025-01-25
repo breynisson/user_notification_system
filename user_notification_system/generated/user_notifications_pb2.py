@@ -22,9 +22,10 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x18user_notifications.proto\x12\x12user_notifications\"4\n\x0eMessageRequest\x12\x11\n\tclient_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"!\n\x0fMessageResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\"(\n\x13\x43lientStatusRequest\x12\x11\n\tclient_id\x18\x01 \x01(\t\"\x91\x01\n\x14\x43lientStatusResponse\x12H\n\x08statuses\x18\x01 \x03(\x0b\x32\x36.user_notifications.ClientStatusResponse.StatusesEntry\x1a/\n\rStatusesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x32\xd3\x01\n\x13NotificationService\x12V\n\x0bSendMessage\x12\".user_notifications.MessageRequest\x1a#.user_notifications.MessageResponse\x12\x64\n\x0fGetClientStatus\x12\'.user_notifications.ClientStatusRequest\x1a(.user_notifications.ClientStatusResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x18user_notifications.proto\x12\x12user_notifications\x1a\x1bgoogle/protobuf/empty.proto\"4\n\x0eMessageRequest\x12\x11\n\tclient_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"!\n\x0fMessageResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\"(\n\x13\x43lientStatusRequest\x12\x11\n\tclient_id\x18\x01 \x01(\t\"\x91\x01\n\x14\x43lientStatusResponse\x12H\n\x08statuses\x18\x01 \x03(\x0b\x32\x36.user_notifications.ClientStatusResponse.StatusesEntry\x1a/\n\rStatusesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x32\xad\x02\n\x13NotificationService\x12V\n\x0bSendMessage\x12\".user_notifications.MessageRequest\x1a#.user_notifications.MessageResponse\x12\x64\n\x0fGetClientStatus\x12\'.user_notifications.ClientStatusRequest\x1a(.user_notifications.ClientStatusResponse\x12X\n\x14GetAllClientStatuses\x12\x16.google.protobuf.Empty\x1a(.user_notifications.ClientStatusResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,16 +34,16 @@ if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_CLIENTSTATUSRESPONSE_STATUSESENTRY']._loaded_options = None
   _globals['_CLIENTSTATUSRESPONSE_STATUSESENTRY']._serialized_options = b'8\001'
-  _globals['_MESSAGEREQUEST']._serialized_start=48
-  _globals['_MESSAGEREQUEST']._serialized_end=100
-  _globals['_MESSAGERESPONSE']._serialized_start=102
-  _globals['_MESSAGERESPONSE']._serialized_end=135
-  _globals['_CLIENTSTATUSREQUEST']._serialized_start=137
-  _globals['_CLIENTSTATUSREQUEST']._serialized_end=177
-  _globals['_CLIENTSTATUSRESPONSE']._serialized_start=180
-  _globals['_CLIENTSTATUSRESPONSE']._serialized_end=325
-  _globals['_CLIENTSTATUSRESPONSE_STATUSESENTRY']._serialized_start=278
-  _globals['_CLIENTSTATUSRESPONSE_STATUSESENTRY']._serialized_end=325
-  _globals['_NOTIFICATIONSERVICE']._serialized_start=328
-  _globals['_NOTIFICATIONSERVICE']._serialized_end=539
+  _globals['_MESSAGEREQUEST']._serialized_start=77
+  _globals['_MESSAGEREQUEST']._serialized_end=129
+  _globals['_MESSAGERESPONSE']._serialized_start=131
+  _globals['_MESSAGERESPONSE']._serialized_end=164
+  _globals['_CLIENTSTATUSREQUEST']._serialized_start=166
+  _globals['_CLIENTSTATUSREQUEST']._serialized_end=206
+  _globals['_CLIENTSTATUSRESPONSE']._serialized_start=209
+  _globals['_CLIENTSTATUSRESPONSE']._serialized_end=354
+  _globals['_CLIENTSTATUSRESPONSE_STATUSESENTRY']._serialized_start=307
+  _globals['_CLIENTSTATUSRESPONSE_STATUSESENTRY']._serialized_end=354
+  _globals['_NOTIFICATIONSERVICE']._serialized_start=357
+  _globals['_NOTIFICATIONSERVICE']._serialized_end=658
 # @@protoc_insertion_point(module_scope)

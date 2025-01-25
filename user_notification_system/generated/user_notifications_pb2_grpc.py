@@ -3,6 +3,7 @@
 import grpc
 import warnings
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 from . import user_notifications_pb2 as user__notifications__pb2
 
 GRPC_GENERATED_VERSION = '1.70.0'
@@ -44,6 +45,11 @@ class NotificationServiceStub(object):
                 request_serializer=user__notifications__pb2.ClientStatusRequest.SerializeToString,
                 response_deserializer=user__notifications__pb2.ClientStatusResponse.FromString,
                 _registered_method=True)
+        self.GetAllClientStatuses = channel.unary_unary(
+                '/user_notifications.NotificationService/GetAllClientStatuses',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=user__notifications__pb2.ClientStatusResponse.FromString,
+                _registered_method=True)
 
 
 class NotificationServiceServicer(object):
@@ -61,6 +67,12 @@ class NotificationServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetAllClientStatuses(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_NotificationServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -72,6 +84,11 @@ def add_NotificationServiceServicer_to_server(servicer, server):
             'GetClientStatus': grpc.unary_unary_rpc_method_handler(
                     servicer.GetClientStatus,
                     request_deserializer=user__notifications__pb2.ClientStatusRequest.FromString,
+                    response_serializer=user__notifications__pb2.ClientStatusResponse.SerializeToString,
+            ),
+            'GetAllClientStatuses': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllClientStatuses,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                     response_serializer=user__notifications__pb2.ClientStatusResponse.SerializeToString,
             ),
     }
@@ -128,6 +145,33 @@ class NotificationService(object):
             target,
             '/user_notifications.NotificationService/GetClientStatus',
             user__notifications__pb2.ClientStatusRequest.SerializeToString,
+            user__notifications__pb2.ClientStatusResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetAllClientStatuses(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_notifications.NotificationService/GetAllClientStatuses',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             user__notifications__pb2.ClientStatusResponse.FromString,
             options,
             channel_credentials,
