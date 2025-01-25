@@ -1,0 +1,27 @@
+[project]
+name = "user-notification-system"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "breynisson",email = "bjorgvin.reynisson@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "grpcio (>=1.69.0,<2.0.0)",
+    "grpcio-tools (>=1.69.0,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+pytest-allure-adaptor = "^1.7.10"
+hypothesis = "^6.124.2"
+
