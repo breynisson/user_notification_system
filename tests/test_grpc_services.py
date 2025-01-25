@@ -1,15 +1,9 @@
 import pytest
 import grpc
-from concurrent.futures import ThreadPoolExecutor
+import random
+from hypothesis import given, strategies as st
+from hypothesis.strategies import lists
 from user_notification_system.generated import user_notifications_pb2, user_notifications_pb2_grpc
-
-# @pytest.fixture(scope="module", autouse=True)
-# def grpc_server():
-#     server_process = subprocess.Popen(["poetry", "run", "python", "../server.py"])
-#     time.sleep(5)
-#     yield
-#     server_process.terminate()
-#     server_process.wait()
 
 # Define a fixture for the gRPC channel
 @pytest.fixture(scope="module")
@@ -55,3 +49,22 @@ def test_multiple_clients(stub, client_id, message, expected_status):
     stub.SendMessage(user_notifications_pb2.MessageRequest(client_id=client_id, message=message))
     status_response = stub.GetClientStatus(user_notifications_pb2.ClientStatusRequest(client_id=client_id))
     assert status_response.statuses[client_id] == expected_status
+
+
+@given(client_id=st.text(min_size=1, max_size=10))
+def test_random_client_ids(stub, client_id):
+    response = stub.SendMessage(user_notifications_pb2.MessageRequest(client_id=client_id, message="Hello"))
+    assert response.status == "Success"
+    status_response = stub.GetClientStatus(user_notifications_pb2.ClientStatusRequest(client_id=client_id))
+    assert status_response.statuses[client_id] == "connected"
+
+from hypothesis.strategies import lists
+
+@given(client_ids=lists(st.text(min_size=1, max_size=10), min_size=2, max_size=20, unique=True))
+def test_multiple_clients_with_random_ids(stub, client_ids):
+    for client_id in client_ids:
+        message = random.choice(["Hello", "Goodbye"])
+        stub.SendMessage(user_notifications_pb2.MessageRequest(client_id=client_id, message=message))
+    status_response = stub.GetClientStatus(user_notifications_pb2.ClientStatusRequest())
+    for client_id in client_ids:
+        assert client_id in status_response.statuses
