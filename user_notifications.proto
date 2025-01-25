@@ -1,0 +1,25 @@
+syntax = 'proto3';
+
+package user_notifications;
+
+service NotificationService {
+  rpc SendMessage (MessageRequest) returns (MessageResponse);
+  rpc GetClientStatus (ClientStatusRequest) returns (ClientStatusResponse);
+}
+
+message MessageRequest {
+  string client_id = 1;
+  string message = 2;
+}
+
+message MessageResponse {
+  string status = 1;
+}
+
+message ClientStatusRequest {
+  string client_id = 1;
+}
+
+message ClientStatusResponse {
+  map<string, string> statuses = 1;
+}
