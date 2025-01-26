@@ -46,8 +46,10 @@ And a docker-compose file to run the application. This would make it easy to run
 ## Notes:
 There was a problem with the namedlist.py file in the virtual environment used during development. 
 The problem was that the collections.Mapping attribute has been deprecated and removed in Python 3.10. 
-This was solved by patching the namedlist.py file with `collections.abc.Mapping`:
-Locate the namedlist.py file in your virtual environment.
-Open the file and replace `_collections.Mapping` with `_collections.abc.Mapping`. While this fix worked, it is not
+This was solved by patching the namedlist.py file with `collections.abc.Mapping`:  
+- Locate the namedlist.py file in your virtual environment.  
+- Open the file and replace `_collections.Mapping` with `_collections.abc.Mapping`.  
+
+While this fix worked, it is not
 recommended to modify the files in the virtual environment. 
 Interestingly, the problem was not present when running the tests in the GitHub Action. 
