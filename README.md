@@ -23,11 +23,11 @@ In order to use the project, you need to follow the steps below:
 - Install the dependencies: `poetry install`
 - Generate the protobuf files: `poetry run generate-grpc`
 - Activate the Poetry virtual environment: `eval $(poetry env activate)`
-- Start the server: `poetry run python start-server`
+- Start the server: `poetry run start-server`
 - Send messages to the server: `poetry run send-message {{client_id}} {{message}}`,  
 where {{client_id}} is the id of the client and {{message}} is the message you want to send.
 - Fetch client status: `poetry run fetch-status {{client_id}}`
-- Fetch all clients status: `poetry run fetch-all-status`
+- Fetch all clients status: `poetry run fetch-all-statuses`
 
 ## Testing
 To run the tests, you can use the following command: `poetry run pytest`.
