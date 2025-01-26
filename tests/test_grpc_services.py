@@ -58,7 +58,6 @@ def test_random_client_ids(stub, client_id):
     status_response = stub.GetClientStatus(user_notifications_pb2.ClientStatusRequest(client_id=client_id))
     assert status_response.statuses[client_id] == "connected"
 
-from hypothesis.strategies import lists
 
 @given(client_ids=lists(st.text(min_size=1, max_size=10), min_size=2, max_size=20, unique=True))
 def test_multiple_clients_with_random_ids(stub, client_ids):
