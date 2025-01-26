@@ -1,5 +1,8 @@
 # User Notification System
 
+![Python CI](https://github.com/breynisson/user_notification_system/actions/workflows/python-ci.yml/badge.svg)
+
+
 ## Description
 
 ## Usage
@@ -34,6 +37,9 @@ poetry run fetch-status {{client_id}}
 ```bash
 poetry run fetch-all-status
 ```
+
+
+### TODO: Add commands for testing with Allure reports and geneerating the reports
 
 
 ## Notes:
