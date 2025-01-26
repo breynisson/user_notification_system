@@ -1,9 +1,14 @@
 import pytest
 import grpc
 import random
+import asyncio
 from hypothesis import given, strategies as st
 from hypothesis.strategies import lists
 from user_notification_system.generated import user_notifications_pb2, user_notifications_pb2_grpc
+
+
+async def send_message(stub, client_id, message):
+    stub.SendMessage(user_notifications_pb2.MessageRequest(client_id=client_id, message=message))
 
 # Define a fixture for the gRPC channel
 @pytest.fixture(scope="module")
@@ -36,6 +41,16 @@ def test_invalid_message(grpc_channel):
     response = stub.SendMessage(user_notifications_pb2.MessageRequest(client_id="client_1", message="Invalid"))
     assert response.status == "Invalid Message"
 
+def test_get_all_client_statuses(stub):
+    stub.SendMessage(user_notifications_pb2.MessageRequest(client_id="client_1", message="Hello"))
+    stub.SendMessage(user_notifications_pb2.MessageRequest(client_id="client_2", message="Hello"))
+    stub.SendMessage(user_notifications_pb2.MessageRequest(client_id="client_3", message="Hello"))
+    stub.SendMessage(user_notifications_pb2.MessageRequest(client_id="client_2", message="Goodbye"))
+    status_response = stub.GetClientStatus(user_notifications_pb2.ClientStatusRequest())
+    assert status_response.statuses["client_1"] == "connected"
+    assert status_response.statuses["client_2"] == "disconnected"
+    assert status_response.statuses["client_3"] == "connected"
+
 
 @pytest.mark.parametrize(
     "client_id, message, expected_status",
@@ -67,3 +82,22 @@ def test_multiple_clients_with_random_ids(stub, client_ids):
     status_response = stub.GetClientStatus(user_notifications_pb2.ClientStatusRequest())
     for client_id in client_ids:
         assert client_id in status_response.statuses
+
+@pytest.mark.asyncio
+async def test_concurrent_clients(stub):
+    num_clients = 10
+    messages = ["Hello", "Goodbye"]
+    tasks = []
+
+    for i in range(num_clients):
+        client_id = f"client_{i}"
+        message = random.choice(messages)
+        tasks.append(send_message(stub, client_id, message))
+
+    await asyncio.gather(*tasks)
+
+    status_response = stub.GetClientStatus(user_notifications_pb2.ClientStatusRequest())
+    for i in range(num_clients):
+        client_id = f"client_{i}"
+        assert client_id in status_response.statuses
+        assert status_response.statuses[client_id] in ["connected", "disconnected"]
