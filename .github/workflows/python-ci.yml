@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write      # Ensure we can push to gh-pages
+  contents: write
 
 jobs:
   test:
@@ -17,10 +17,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.12
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Poetry
         run: |
@@ -28,10 +28,12 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Install Dependencies
-        run: poetry install
+        run: |
+          poetry install
 
       - name: Generate Proto Files
-        run: poetry run generate-grpc
+        run: |
+          poetry run generate-grpc
 
       - name: Run Tests
         run: |
@@ -41,13 +43,18 @@ jobs:
       - name: Install Allure CLI
         run: |
           sudo apt-get update
-          sudo apt-get install -y allure
+          sudo apt-get install -y wget unzip default-jre
+          wget https://github.com/allure-framework/allure2/releases/download/2.22.5/allure-2.22.5.zip
+          unzip allure-2.22.5.zip
+          sudo mv allure-2.22.5 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          allure --version
 
-      - name: Generate Allure report
+      - name: Generate Allure Report
         run: |
           allure generate reports/allure-results -o reports/allure-report --clean
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
