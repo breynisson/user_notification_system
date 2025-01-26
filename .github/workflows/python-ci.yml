@@ -2,63 +2,53 @@ name: Python CI with Poetry
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 permissions:
-  contents: write
-  pages: write
+  contents: write      # Ensure we can push to gh-pages
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: [3.9, 3.12]
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
 
-    - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        export PATH="$HOME/.local/bin:$PATH"
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-    - name: Install Dependencies
-      run: |
-        poetry install
+      - name: Install Dependencies
+        run: poetry install
 
-    - name: Generate Proto Files
-      run: |
-        poetry run generate-grpc
+      - name: Generate Proto Files
+        run: poetry run generate-grpc
 
-    - name: Run Tests
-      run: |
-        mkdir -p reports/allure-results
-        poetry run pytest --alluredir=reports/allure-results
+      - name: Run Tests
+        run: |
+          mkdir -p reports/allure-results
+          poetry run pytest --alluredir=reports/allure-results
 
-    - name: Upload Allure Results
-      uses: actions/upload-artifact@v3
-      with:
-        name: allure-results
-        path: reports/allure-results
+      - name: Install Allure CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
 
-    - name: Deploy Allure Report to GitHub Pages
-      uses: dorny/allure-report@v3
-      with:
-        results-dir: reports/allure-results
-        report-dir: reports/allure-report
-        allure-cli-version: latest
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
-        path: "."
+      - name: Generate Allure report
+        run: |
+          allure generate reports/allure-results -o reports/allure-report --clean
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports/allure-report
