@@ -4,33 +4,33 @@
 
 ## Usage
 
-## Generate protobuf files
+### Generate protobuf files
 ```bash
 poetry run generate-grpc
 ``` 
 
 
-## Activate Poetry virtual environment
+### Activate Poetry virtual environment
 ```bash
 eval $(poetry env activate)
 ```
 
-## Start the server
+### Start the server
 ```bash
 poetry run python start-server
 ```
 
-## Send messages to the server
+### Send messages to the server
 ```bash
 poetry run send-message {{client_id}} {{message}}
 ```
 
-## Fetch client status
+### Fetch client status
 ```bash
 poetry run fetch-status {{client_id}}
 ```
 
-## Fetch all clients status (NOTE: This command is not working currently)
+### Fetch all clients status (NOTE: This command is not working currently)
 ```bash
 poetry run fetch-all-status
 ```
