@@ -26,7 +26,7 @@ In order to use the project, you need to follow the steps below:
 - Start the server: `poetry run start-server`
 - Send messages to the server: `poetry run send-message {{client_id}} {{message}}`,  
 where {{client_id}} is the id of the client and {{message}} is the message you want to send.
-- Fetch client status: `poetry run fetch-status {{client_id}}`
+- Fetch client status: `poetry run fetch-client-status {{client_id}}`
 - Fetch all clients status: `poetry run fetch-all-statuses`
 
 ## Testing
